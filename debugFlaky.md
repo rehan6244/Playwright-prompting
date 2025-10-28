@@ -57,3 +57,20 @@ Button disabled  (isEnabled() === false)#detection
 Covered by modal/loader   (elementFromPoint check)
 Iframe  saveBtn.evaluate(el => el.ownerDocument !== document)
 
+#proactive flaky proof pattern
+
+async function clickStable(locator: Locator) {
+  await expect(locator).toBeVisible();
+  await expect(locator).toBeEnabled();
+  await locator.click();
+}
+
+Add to test.config.ts
+
+test.use({
+  trace: 'on-first-retry',
+  screenshot: 'only-on-failure',
+  video: 'retain-on-failure'
+});
+
+
